@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+		<!-- changes from the defaults
+		<setting name="cacheEnabled" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<setting name="defaultStatementTimeout" value="25000" /> -->
+	</settings>
+
+	<typeAliases>
+		<!-- <package name="com.yazuo.baikal.supplement.entity"/> -->
+	</typeAliases>
+	
+	<typeHandlers>
+		<!-- <typeHandler handler="com.mybatis3.util.HexByteTypeHandler" javaType="byte[]" jdbcType="BLOB" /> -->
+		<typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="java.lang.Enum" jdbcType="VARCHAR"/>
+	</typeHandlers>
+
+</configuration>

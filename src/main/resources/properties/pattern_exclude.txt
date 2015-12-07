@@ -1,0 +1,4 @@
+crawlThreads=50
+crawlInterval=5000
+phantomjs.windows.path=/bin/phantomjs.exe
+phantomjs.linux.path=/bin/phantomjs
