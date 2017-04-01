@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
-  <classPathEntry  location="C:\Users\u\.m2\repository\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar"/>
+  <classPathEntry  location="F:\java\maven_jar\.m2\repository\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar"/>
   <context id="context1" >
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/crawler" userId="root" password="root" />
     <javaModelGenerator targetPackage="com.yazuo.crawler.entity" targetProject="crawler" />
