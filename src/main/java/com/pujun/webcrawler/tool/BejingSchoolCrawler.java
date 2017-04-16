@@ -1,122 +1,147 @@
 package com.pujun.webcrawler.tool;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
-import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.pujun.webcrawler.dao.HausesMapper;
+import com.pujun.webcrawler.entity.Hauses;
 
-public class BejingSchoolCrawler extends Crawler {
+@Component
+public class BejingSchoolCrawler extends Crawler<Hauses> {
+	@Autowired
+	HausesMapper hMapper;
 	@Override
-	public JSONObject parseContent(String html) {
-		JSONObject result=new JSONObject();
-		Document document=Jsoup.parse(html);
-		//总价解析
-		Elements total=document.select("div.content > div.price >span.total");
+	public Hauses parseContent(String html) {
+		Hauses result = new Hauses();
+		result.setCrawldate(new Date());
+		Document document = Jsoup.parse(html);
+		// ID解析
+		Elements id = document.select("div.aroundInfo > div.houseRecord > span.info");
+		if (id.hasText()) {
+			result.setId(id.first().ownText());
+		}
+		// 总价解析
+		Elements total = document.select("div.content > div.price > span.total");
 		if (total.hasText()) {
-			result.put("price", total);
+			result.setPrice(Integer.valueOf(total.text()));
 		}
-		//基本信息解析
-		Elements baseInfo=document.select("div.base > div.content > ul");
+		// 地域解析
+		Elements areaName = document.select("div.aroundInfo > div.areaName > span.info");
+		if (areaName.hasText()) {
+			result.setAreaname(areaName.text());
+		}
+		// 小区解析
+		Elements community = document.select("div.aroundInfo > div.communityName > a.info");
+		if (community.hasText()) {
+			result.setCommunity(community.text());
+		}
+		// 基本信息解析
+		Elements baseInfo = document.select("div.base > div.content > ul");
 		if (baseInfo.hasText()) {
-             extractInfo(baseInfo,result);
+			extractInfo(baseInfo, result);
 		}
-		//交易信息解析
-		Elements transactionInfo=document.select("div.transaction > div.content > ul");
+		// 交易信息解析
+		Elements transactionInfo = document.select("div.transaction > div.content > ul");
 		if (transactionInfo.hasText()) {
-			extractInfo(transactionInfo,result);
+			extractInfo(transactionInfo, result);
 		}
 		return result;
 	}
 
-	private void extractInfo(Elements baseInfo, JSONObject result) {
-		Elements baseNode=baseInfo.first().children();
+	private void extractInfo(Elements baseInfo, Hauses result) {
+		Elements baseNode = baseInfo.first().children();
 		for (Element element : baseNode) {
-			String key=element.child(0).text();
-			String value=element.child(1).text();
+			String key = element.children().first().text();
+			String value = element.ownText();
 			switch (key) {
 			case "房屋户型":
-				result.put("huxing", value);
+				result.setHuxing(value);
 				break;
 			case "所在楼层":
-				result.put("louceng", value);
+				result.setLouceng(value);
 				break;
 			case "建筑面积":
-				result.put("jianmian", value);
+				result.setJianmian(Float.valueOf(StringUtils.replace(value, "㎡", "")));
 				break;
 			case "套内面积":
-				result.put("taomian", value);
+				result.setTaomian(Float.valueOf(StringUtils.replace(value, "㎡", "")));
 				break;
 			case "建筑类型":
-				result.put("louxing", value);
+				result.setLouxing(value);
 				break;
 			case "房屋朝向":
-				result.put("chaoxiang", value);
+				result.setChaoxiang(value);
 				break;
 			case "建筑结构":
-				result.put("jiegou", value);
+				result.setJiegou(value);
 				break;
 			case "装修情况":
-				result.put("zhuangxiu", value);
+				result.setZhuangxiu(value);
 				break;
 			case "梯户比例":
-				result.put("tihubili", value);
+				result.setTihubili(value);
 				break;
 			case "供暖方式":
-				result.put("gongnuan", value);
+				result.setGongnuan(value);
 				break;
 			case "配备电梯":
-				result.put("hasDianti", value);
+				result.setHasdianti(value);
 				break;
 			case "产权年限":
-				result.put("chanquan", value);
+				result.setChanquan(value);
 				break;
 			case "交易权属":
-				result.put("jiaoyiquanshu", value);
+				result.setJiaoyiquanshu(value);
 				break;
 			case "挂牌时间":
-				result.put("guapaishijian", value);
+				result.setGuapaishijian(value);
 				break;
 			case "上次交易":
-				result.put("shangcijiaoyi", value);
+				result.setShangcijiaoyi(value);
 				break;
 			case "房屋用途":
-				result.put("yongtu", value);
+				result.setYongtu(value);
 				break;
 			case "房屋年限":
-				result.put("chiyounianxian", value);
+				result.setChiyounianxian(value);
 				break;
 			case "产权所属":
-				result.put("suoyouquan", value);
+				result.setSuoyouquan(value);
 				break;
-			case "抵押信息":
-				result.put("diya", value);
-				break;
+//			case "抵押信息":
+//				result.setDiya(value);
+//				break;
 			default:
 				break;
 			}
 		}
-		
+
 	}
 
 	@Override
 	public boolean contentFilt(String url) {
-		String regex="http://bj.lianjia.com/.+/(\\d)+.html";
+		String regex = "http://bj.lianjia.com/.+/(\\d)+.html";
 		return Pattern.matches(regex, url);
 	}
 
 	@Override
 	public boolean outlinkFilt(String url) {
-		String regex="http://bj.lianjia.com/(xiaoqu|chengjiao|ershoufang).+";
+		String regex = "http://bj.lianjia.com/(xiaoqu|chengjiao|ershoufang).+";
 		return Pattern.matches(regex, url);
 	}
 
 	@Override
-	public void save(JSONObject content) {
-		// TODO Auto-generated method stub
+	public void save(Hauses content) {
+		content.setCreatetime(new Date());
+		hMapper.insert(content);
 
 	}
 

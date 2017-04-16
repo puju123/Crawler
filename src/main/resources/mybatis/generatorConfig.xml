@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
-  <classPathEntry  location="F:\java\maven_jar\.m2\repository\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar"/>
+  <classPathEntry  location="C:\Users\u\.gradle\caches\modules-2\files-2.1\mysql\mysql-connector-java\5.1.38\dbbd7cd309ce167ec8367de4e41c63c2c8593cc5\mysql-connector-java-5.1.38.jar"/>
   <context id="context1" >
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/crawler" userId="root" password="root" />
-    <javaModelGenerator targetPackage="com.yazuo.crawler.entity" targetProject="crawler" />
-    <sqlMapGenerator targetPackage="com.yazuo.crawler.dao" targetProject="crawler" />
-    <javaClientGenerator targetPackage="com.yazuo.crawler.dao" targetProject="crawler" type="XMLMAPPER" />
-    <table schema="crawler" tableName="dazhongdianping" enableDeleteByPrimaryKey="false" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"></table>
+    <javaModelGenerator targetPackage="com.pujun.webcrawler.entity" targetProject="WebCrawler" />
+    <sqlMapGenerator targetPackage="com.pujun.webcrawler.dao" targetProject="WebCrawler" />
+    <javaClientGenerator targetPackage="com.pujun.webcrawler.dao" targetProject="WebCrawler" type="XMLMAPPER" />
+    <table schema="crawler" tableName="hauses" enableDeleteByPrimaryKey="false" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"></table>
+    <table schema="crawler" tableName="proxy" enableDeleteByPrimaryKey="false" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"></table>
   </context>
 </generatorConfiguration>

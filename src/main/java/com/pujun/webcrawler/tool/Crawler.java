@@ -13,15 +13,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import com.pujun.webcrawler.entity.CrawlMeta;
 import com.pujun.webcrawler.fetch.HttpClientFetcher;
 import com.pujun.webcrawler.parse.LinkParser;
 import com.pujun.webcrawler.util.SeedFile;
 
-public abstract class Crawler {
-	private final Logger logger = Logger.getLogger(this.getClass());
+public abstract class Crawler<T> {
+	protected final Logger logger = Logger.getLogger(this.getClass());
 	//抓取线程池
 	private static ExecutorService pool = null;
 	//待抓取队列
@@ -51,13 +50,13 @@ public abstract class Crawler {
 		this.seedFilePath=seedFilePath;
 	};
 
-	public abstract JSONObject parseContent(String html);
+	public abstract T parseContent(String html);
 
 	public abstract boolean contentFilt(String url);
 	
 	public abstract boolean outlinkFilt(String url);
 
-	public abstract void save(JSONObject content);
+	public abstract void save(T content);
 
 	public void start() {
 		logger.info("开始执行！！！！！！！！！！！！！！");
@@ -159,7 +158,7 @@ public abstract class Crawler {
 				//如果符合内容页，则解析内容
 				if (contentFilt(url)) {
 					//内容解析
-					JSONObject content=parseContent(html);
+					T content=parseContent(html);
 					//内容存储
 					save(content);
 				}

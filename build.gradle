@@ -4,7 +4,7 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 ext.springVersion='4.3.7.RELEASE'
 
@@ -18,7 +18,7 @@ jar {
 repositories {
     maven {
         url "http://maven.aliyun.com/nexus/content/groups/public/"
-        url "http://uk.maven.org/maven2/"
+        //url "http://uk.maven.org/maven2/"
         //url "http://maven.antelink.com/content/groups/public/"
     }
     mavenCentral()
@@ -39,9 +39,9 @@ dependencies {
     //compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.1.0.RELEASE'
     //compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.1.0.RELEASE'
     //compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '4.1.0.RELEASE'
-    compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.2.5'
-    compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.2.5'
-    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.2.5'
+    //compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.2.5'
+    //compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.2.5'
+    //compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.2.5'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
     // http://mvnrepository.com/artifact/org.jsoup/jsoup
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
