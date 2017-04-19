@@ -4,11 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.pujun.webcrawler.entity.ProxyData;
-import com.pujun.webcrawler.main.CrawlerDZByCity;
 
 
 public class HttpClientFetcher implements Fetcher {
-	private final Logger logger=Logger.getLogger(CrawlerDZByCity.class);
+	private final Logger logger=Logger.getLogger(HttpClientFetcher.class);
 	private static ProxyData proxyData=new ProxyData();
 	@Override
 	public String fetch(String url,int timeOut,Boolean useProxy) {

@@ -11,11 +11,15 @@ import com.pujun.webcrawler.tool.ProxyCrawler;
 
 @Component
 public class Main implements ApplicationListener<ContextRefreshedEvent>{
-	
+	@Autowired
+	ProxyCrawler proxyCrawler;
 	public static void main(String[] args) {
-        BejingSchoolCrawler crawler=new BejingSchoolCrawler(); 
-        crawler.init(1, 10000, 1, "D:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\seeds.txt");
-        crawler.start();
+//        BejingSchoolCrawler crawler=new BejingSchoolCrawler(); 
+//        crawler.init(1, 10000, 1, "D:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\seeds.txt");
+//        crawler.start();
+		System.out.println("爬虫启动。。。。");
+		proxyCrawler.init(8, 5000, 3, "F:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\ProxySeeds.txt");
+		proxyCrawler.start();
 
 	}
 	
@@ -26,9 +30,12 @@ public class Main implements ApplicationListener<ContextRefreshedEvent>{
 //            crawlThread.start();
 //        }
 	if (event.getApplicationContext().getParent() == null) {
-		CrawlThread ct=new CrawlThread();
-		ct.setName("crawl-thread");
-        ct.start();
+//		CrawlThread ct=new CrawlThread();
+//		ct.setName("crawl-thread");
+//        ct.start();
+		System.out.println("爬虫启动。。。。");
+		proxyCrawler.init(8, 5000, 3, "F:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\ProxySeeds.txt");
+		proxyCrawler.start();
     }
 	}
 	private class CrawlThread extends Thread{
@@ -39,7 +46,8 @@ public class Main implements ApplicationListener<ContextRefreshedEvent>{
 		public void run() {
 //	        crawler.init(8, 0, 3, "D:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\seeds.txt");
 //	        crawler.start();
-			proxyCrawler.init(8, 0, 3, "D:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\ProxySeeds.txt");
+			System.out.println("爬虫启动。。。。");
+			proxyCrawler.init(8, 5000, 3, "D:\\java\\workspace\\WebCrawler\\src\\main\\resources\\seed\\ProxySeeds.txt");
 			proxyCrawler.start();
 		}
 	}

@@ -4,7 +4,7 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 version = '1.0'
 ext.springVersion='4.3.7.RELEASE'
 
@@ -76,10 +76,10 @@ dependencies {
 }
 
 task copyXML(type: Copy) {
-    from('src/main/java/com/fhkg/rainbow/dao/mapper') {
+    from('src/main/java/com/pujun/webcrawler/dao') {
         include '*.xml'
     }
-    into ('build/classes/main/com/fhkg/rainbow/dao/mapper')
+    into ('build/classes/main/com/pujun/webcrawler/dao')
 }
 
 test {
