@@ -1,6 +1,8 @@
 package com.pujun.webcrawler.tool;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,11 +17,11 @@ import com.pujun.webcrawler.dao.HausesMapper;
 import com.pujun.webcrawler.entity.Hauses;
 
 @Component
-public class BejingSchoolCrawler extends Crawler<Hauses> {
+public class HausesCrawler extends Crawler<Hauses> {
 	@Autowired
 	HausesMapper hMapper;
 	@Override
-	public Hauses parseContent(String html) {
+	public List<Hauses> parseContent(String html) {
 		Hauses result = new Hauses();
 		result.setCrawldate(new Date());
 		Document document = Jsoup.parse(html);
@@ -53,7 +55,9 @@ public class BejingSchoolCrawler extends Crawler<Hauses> {
 		if (transactionInfo.hasText()) {
 			extractInfo(transactionInfo, result);
 		}
-		return result;
+		List<Hauses> resultList=new ArrayList<>();
+		resultList.add(result);
+		return resultList;
 	}
 
 	private void extractInfo(Elements baseInfo, Hauses result) {
@@ -134,14 +138,15 @@ public class BejingSchoolCrawler extends Crawler<Hauses> {
 
 	@Override
 	public boolean outlinkFilt(String url) {
-		String regex = "http://bj.lianjia.com/(xiaoqu|chengjiao|ershoufang).+";
+		String regex = "http://bj.lianjia.com/(xiaoqu|chengjiao|ershoufang)/(c[^o0-9]|[^c]).+";
 		return Pattern.matches(regex, url);
 	}
 
 	@Override
-	public void save(Hauses content) {
-		content.setCreatetime(new Date());
-		hMapper.insert(content);
+	public void save(List<Hauses> content) {
+		Hauses record=content.get(0);
+		record.setCreatetime(new Date());
+		hMapper.insert(record);
 
 	}
 

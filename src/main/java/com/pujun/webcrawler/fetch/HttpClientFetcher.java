@@ -8,7 +8,7 @@ import com.pujun.webcrawler.entity.ProxyData;
 
 public class HttpClientFetcher implements Fetcher {
 	private final Logger logger=Logger.getLogger(HttpClientFetcher.class);
-	private static ProxyData proxyData=new ProxyData();
+//	private static ProxyData proxyData=new ProxyData();
 	@Override
 	public String fetch(String url,int timeOut,Boolean useProxy) {
 		if (StringUtils.isBlank(url)) {
@@ -21,11 +21,21 @@ public class HttpClientFetcher implements Fetcher {
 	    int retryCount=1;
 	    if (useProxy) {
 	    	do {
-	    		proxy=proxyData.getProxy();
-	    		logger.info("第"+retryCount+"次抓取!!!!"+proxy);
-	    		responseUtil.getResponse(url,timeOut,proxy);
-	    		statusCode=responseUtil.getStatusCode();
-			}while(statusCode!=200&&(++retryCount<=3));
+	    		proxy=ProxyData.getProxy();
+	    		if (proxy==null) {
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						logger.error("线程睡眠出错。", e);
+					}
+				}else {
+		    		logger.info("第"+retryCount+"次抓取!!!!"+proxy);
+		    		responseUtil.getResponse(url,timeOut,proxy);
+		    		statusCode=responseUtil.getStatusCode();
+		    		retryCount++;
+				}
+
+			}while(statusCode!=200&&(retryCount<=3));
 		}else {
 			responseUtil.getResponse(url,timeOut,proxy);
 			statusCode=responseUtil.getStatusCode();

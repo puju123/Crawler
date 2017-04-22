@@ -158,7 +158,7 @@ public class ResponseUtil {
 		// accept gzipped content
 		httpget.addHeader("Connection", "keep-alive");
 		
-		httpget.addHeader("Host", "www.xicidaili.com");
+		//httpget.addHeader("Host", "www.xicidaili.com");
 		httpget.addHeader("Pragma", "no-cache");
 		httpget.addHeader("Upgrade-Insecure-Requests", "1");
 		httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");

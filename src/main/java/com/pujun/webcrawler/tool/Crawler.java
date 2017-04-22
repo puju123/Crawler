@@ -33,6 +33,8 @@ public abstract class Crawler<T> {
 	private int maxDepth=3;
 	//种子文件路径
 	private String seedFilePath=null;
+	//是否使用代理
+	boolean useProxy=false;
    /**
     * @Title: init 
     * @Description: 初始化
@@ -43,20 +45,21 @@ public abstract class Crawler<T> {
     * void
     * @throws
     */
-	public void init(int poolSize, int interval,int maxDepth,String seedFilePath) {
+	public void init(int poolSize, int interval,int maxDepth,String seedFilePath,boolean useProxy) {
 		pool = Executors.newFixedThreadPool(poolSize);
 		this.interval = interval;
 		this.maxDepth=maxDepth;
 		this.seedFilePath=seedFilePath;
+		this.useProxy=useProxy;
 	};
-
-	public abstract T parseContent(String html);
+	
+	public abstract List<T> parseContent(String html);
 
 	public abstract boolean contentFilt(String url);
 	
 	public abstract boolean outlinkFilt(String url);
 
-	public abstract void save(T content);
+	public abstract void save(List<T> content);
 
 	public void start() {
 		logger.info("开始执行！！！！！！！！！！！！！！");
@@ -139,7 +142,7 @@ public abstract class Crawler<T> {
 			}
 			HttpClientFetcher fetcher = new HttpClientFetcher();
             //html抓取
-			String html = fetcher.fetch(url, 5000, false);
+			String html = fetcher.fetch(url, 5000, useProxy);
 			if (StringUtils.isNoneBlank(html)) {
 				// url放入已抓取列表
 				crawledSet.add(url);
@@ -158,7 +161,7 @@ public abstract class Crawler<T> {
 				//如果符合内容页，则解析内容
 				if (contentFilt(url)) {
 					//内容解析
-					T content=parseContent(html);
+					List<T> content=parseContent(html);
 					//内容存储
 					save(content);
 				}
